@@ -4,30 +4,45 @@ const listaTarea =document.getElementById('lista-tareas')
 const template = document.getElementById('template').content
 const fragment = document.createDocumentFragment()
 let tareas = {
-    1640892576920:{
-        id: 1640892576920,
-        texto: 'Tarea #1',
-        estado: false
-    },
-    1640892887644:{
-        id: 1640892887644,
-        texto: 'Tarea #2',
-        estado: false
-    }
 }
 
 //console.log(Date.now())
 
 formulario.addEventListener('submit', e =>{
     e.preventDefault()//evitamos que desaparezca, como una ancla
-    console.log(e.target[0].value)
-    console.log(e.target.querySelector('input').value)
-    console.log(input.value)
+    //console.log(e.target[0].value)
+    //console.log(e.target.querySelector('input').value)
+    //console.log(input.value)
 
-   // setTarea(e)
+    setTarea(e)
 })
 
-//const setTarea = e =>{
-    //console.log('diste click')
+const setTarea = e =>{
+    if(input.value.trim() === ''){ //trim nos permite limpiar si el usuario no escribe nada
+        console.log('Esta vacio')
+        return //para que salga de SetTarea y no caiga la siguieente console
+    }
+    
+    const tarea = {
+            id: Date.now(),
+            texto: input.value,
+            estado: false
+    }
+    tareas[tarea.id] = tarea
+    //console.log(tareas)
+    formulario.reset()// para limpair la barra del fromulario
+    input.focus()
 
-//}
+    pintarTareas()
+}
+
+const pintarTareas = () =>{
+        listaTarea.innerHTML = ''
+        Object.values(tareas).forEach(tarea =>{
+            const clone = template.cloneNode(true)
+            clone.querySelector('p').textContent=tarea.texto
+            fragment.appendChild(clone)
+        })
+        listaTarea.appendChild(fragment) 
+
+        }
