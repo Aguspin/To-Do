@@ -7,6 +7,9 @@ const fragment = document.createDocumentFragment()
 let tareas = {}
 
 document.addEventListener('DOMContentLoaded', () =>{
+    if(localStorage.getItem('tareas')){
+        tareas = JSON.parse(localStorage.getItem('tareas'))
+    }
     pintarTareas()
 })
 
@@ -45,6 +48,8 @@ const setTarea = e =>{
 }
 
 const pintarTareas = () =>{
+
+    localStorage.setItem('tareas', JSON.stringify(tareas))//tranformamos en objeto en en una cadena de texto plano
 
     if(Object.values(tareas).length === 0){
         listaTarea.innerHTML = `
